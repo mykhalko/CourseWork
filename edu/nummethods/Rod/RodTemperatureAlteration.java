@@ -5,66 +5,64 @@ import edu.nummethods.Integration.Simpson.IntegralExpression;
 
 public class RodTemperatureAlteration {
 
-    class DynamicIntegralExpression implements IntegralExpression{
-
-        private double nunExpression;
-        private double convectionLeft;
-        private double length;
-
-        public void setNunExpression(double value){
-            this.nunExpression = value;
-        }
-
-        public void setConvectionLeft(double value){
-            this.convectionLeft = value;
-        }
-
-        public DynamicIntegralExpression(double length){
-            this.nunExpression = 1;
-            this.convectionLeft = 1;
-            this.length = length;
-        }
-
-
-        @Override
-        public double calculate(double x){
-            double result = nunExpression / length * Math.cos(nunExpression / length * x);
-            result += convectionLeft * Math.sin(nunExpression / length * x);
-            return result;
-        }
-
-    }
 
     private double rangeLimitStart, rangeLimitEnd, step;
     private StartTemperatureDistribution temperatureLocation;
-    private double convectionLeft, convectionRight;
+    private double convectiveLeft, convectiveRight;
     private double length;
-    private DynamicIntegralExpression dynamicIntegralExpression;
-    private Integral phiIntegral;
+    private double currentNun;
+    private Integral phiIntegral, CnIntegral;
 
     private static double SQUARE_PI = 9.86960440109;
 
 
     public RodTemperatureAlteration(double rangeLimitStart, double rangeLimitEnd,
                                     double convectionLeft, double convectionRight, double step,
-                                    StartTemperatureDistribution temperatureLocation){
+                                    StartTemperatureDistribution temperatureLocation) {
 
         this.rangeLimitStart = rangeLimitStart;
         this.rangeLimitEnd = rangeLimitEnd;
-        length = rangeLimitEnd - rangeLimitStart;
-        this.convectionLeft = convectionLeft;
-        this.convectionRight = convectionRight;
+        length = this.rangeLimitEnd - this.rangeLimitStart;
+        this.convectiveLeft = convectionLeft;
+        this.convectiveRight = convectionRight;
         this.step = step;
         this.temperatureLocation = temperatureLocation;
-        dynamicIntegralExpression = new DynamicIntegralExpression(length);
-        phiIntegral = new Integral(dynamicIntegralExpression, 0.001);
+
+        IntegralExpression phiIntegralExpression = new IntegralExpression() {
+            @Override
+            public double calculate(double x) {
+                double result;
+                result = currentNun / length * Math.cos(currentNun / length * x);
+                result += convectiveLeft * Math.sin(currentNun / length * x);
+                return result * result;
+            }
+        };
+
+        phiIntegral = new Integral(phiIntegralExpression, 0.001);
+
+        IntegralExpression CnIntegralExpression = new IntegralExpression() {
+            @Override
+            public double calculate(double x) {
+                double result;
+                result = currentNun / length * Math.cos(currentNun / length * x);
+                result += convectiveLeft * Math.sin(currentNun / length * x);
+                result *= temperatureLocation.calculate(x);
+                return result;
+            }
+        };
+
+        CnIntegral = new Integral(CnIntegralExpression, 0.001);
     }
 
 
-    //TODO rename function(now formulas title)
-    private double modifiedSquaredPhinx(int n, double x){
+    //TODO rename function (now formulas title)
+    private double cn(int n, double x){
+        return 1 / modifiedPhi() * CnIntegral.calculate(0, length);
+    }
 
-        return 0;
+    //TODO rename function (now formulas title)
+    private double modifiedPhi(){
+        return phiIntegral.calculate(0, length);
     }
 
     //TODO rename function (now formulas title)
@@ -72,7 +70,7 @@ public class RodTemperatureAlteration {
         double usableVariable = nun(n) / length;
 
         double result = usableVariable * Math.cos(usableVariable*x);
-        result += convectionLeft * Math.sin(usableVariable*x);
+        result += convectiveLeft * Math.sin(usableVariable*x);
         return result;
     }
 
