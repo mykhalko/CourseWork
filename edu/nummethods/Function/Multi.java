@@ -1,7 +1,7 @@
 package edu.nummethods.Function;
 
-public interface Multi {
+public interface Multi <T> {
 
-    double calculate(Object ... variable);
+    T calculate(T ... variable);
 
 }

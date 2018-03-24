@@ -1,5 +1,8 @@
 package edu.nummethods;
 
+import com.sun.org.apache.xpath.internal.operations.Mult;
+import edu.nummethods.Differentiation.Derivative;
+import edu.nummethods.Function.Multi;
 import edu.nummethods.Integration.Simpson.Integral;
 import edu.nummethods.Integration.Simpson.IntegralExpression;
 import edu.nummethods.Rod.Exceptions.UseAnotherReloadException;
@@ -11,23 +14,18 @@ public class main {
 
     public static void main(String[] args){
 
-        StartTemperatureDistribution startTemperatureDistribution = new StartTemperatureDistribution() {
+        Multi<Double> function = new Multi<Double>() {
             @Override
-            public double calculate(double x) throws UseAnotherReloadException {
-
-                double result;
-                double divider = 2*x*x - x + 2;
-                if(divider <= 0){
-                    throw new ArithmeticException("Disturbed area of admissible values");
-                }
-
-                return (2*x - 0.5) / Math.sqrt(divider);
+            public Double calculate(Double... variable) {
+                double value = variable[0].doubleValue();
+                return value * value * 2;
             }
         };
 
-        RodTemperatureAlteration rodTemperatureAlteration = new RodTemperatureAlteration(
-                0, 10, 0.1,
-                1, 0.1, startTemperatureDistribution);
+        Derivative derivative = new Derivative(function, 0.00000001);
+
+        System.out.printf("function(x0 = 4): %f derivative(x0 = 4): %f",
+                function.calculate(4.0), derivative.calculate(4));
 
         return;
     }
