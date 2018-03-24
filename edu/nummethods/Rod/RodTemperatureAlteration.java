@@ -82,7 +82,7 @@ public class RodTemperatureAlteration {
             public Double calculate(Double ... variable) {
                 double left, right, div, ksi;
 
-                ksi = ((Double)variable[0]);
+                ksi = variable[0];
                 div = values.getNu() / length;
 
                 left = div * Math.cos(div * ksi);
@@ -105,8 +105,8 @@ public class RodTemperatureAlteration {
             values.setNu(nuFunction(i));
             double expression;
             expression = cnFunction(values.getNu());
-            expression *= Math.exp(-(squaredA * lambdaFunction(values.getNu() * t)));
-            expression *= phiFunction(x, values.getNu());
+            expression *= Math.exp(-squaredA * lambdaFunction(values.getNu() * t));
+            expression *= phiFunction(x);
             result += expression;
         }
         return result;
@@ -120,21 +120,30 @@ public class RodTemperatureAlteration {
         return (nuValue * nuValue) / (length * length);
     }
 
-    public double squaredModuloPhiFunction(double nuValue){
+    public double squaredModuloPhiFunction(){
         return phiIntegral.calculate(0, length);
     }
 
-    public double phiFunction(double x, double nuValue){
+    public double phiFunction(double x){
         double left, right;
-        double div = nuValue / length;
+        double div = values.getNu() / length;
         left = (div * Math.cos(div * x));
         right = convectionLeft * Math.sin(div * x);
         return left + right;
     }
 
     public double cnFunction(double nuValue){
-        return (1 / squaredModuloPhiFunction(nuValue)) * cnIntegral.calculate(0, length);
+        return (1 / squaredModuloPhiFunction()) * cnIntegral.calculate(0, length);
     }
 
+
+    // TEMPORARY METHODS 
+    public void updateNu(int n){
+        values.setNu(nuFunction(n));
+    }
+
+    public double cnIntegralResult(){
+        return cnIntegral.calculate(0, 10);
+    };
 
 }
