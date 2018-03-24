@@ -55,18 +55,31 @@ public class main {
         RodTemperatureAlteration rodTemperatureAlteration = new RodTemperatureAlteration( temperatureDistribution, courseWorkFunction,
                 10, 0.1, 1);
 
+
         double x = 0;
         double t = 0;
         System.out.printf("|    x    |    t    |    n    |    r    |\n");
         while(x < 10){
-            System.out.printf("|%9.4f|%9.4f|%9d|%9.4f|\n", x, t, 1000, rodTemperatureAlteration.calculate(x, t, 1000));
+            System.out.printf("|%9.4f|%9.4f|%9d|%9.4f|\n", x, t, 8, rodTemperatureAlteration.calculate(x, t, 11));
             x += 1;
         }
 
+        /*
+        for(int i = 0; i < 20; i++) {
+            rodTemperatureAlteration.updateNu(i);
+            System.out.printf("Nu: %10.4f CnIntegral: ", rodTemperatureAlteration.nuFunction(i));
+            System.out.print(i + ". " + rodTemperatureAlteration.cnIntegralResult());
+            System.out.println(" PhiIntegral: " + rodTemperatureAlteration.phiIntegralResult());
+        }
+        */
 
+        /*
+        rodTemperatureAlteration.updateNu(101);
+        System.out.printf("Nu: %10.4f CnIntegral: ", rodTemperatureAlteration.nuFunction(101));
+        System.out.print(" . " + rodTemperatureAlteration.cnIntegralResult());
+        System.out.println(" PhiIntegral: " + rodTemperatureAlteration.phiIntegralResult());
 
-
-
+        */
         return;
     }
 

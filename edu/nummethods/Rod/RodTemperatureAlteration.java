@@ -48,7 +48,7 @@ public class RodTemperatureAlteration {
 
             IntegralValues values;
 
-            public Multi<Double >setValues(IntegralValues values){
+            public Multi<Double> setValues(IntegralValues values){
                 this.values = values;
                 return this;
             }
@@ -111,7 +111,7 @@ public class RodTemperatureAlteration {
             expression *= phiFunction(x);
             result += expression;
             i++;
-        }while(i < n && Math.abs(expression - previousExpression) > 0.0001);
+        }while(i < n/* && Math.abs(expression - previousExpression) > 0.0001*/);
         return result;
     }
 
@@ -136,7 +136,7 @@ public class RodTemperatureAlteration {
     }
 
     public double cnFunction(){
-        return (1 / squaredModuloPhiFunction()) * cnIntegral.calculate(0, length);
+        return (1 / this.squaredModuloPhiFunction()) * cnIntegral.calculate(0, length);
     }
 
 
@@ -146,7 +146,17 @@ public class RodTemperatureAlteration {
     }
 
     public double cnIntegralResult(){
-        return cnIntegral.calculate(0, 10);
+        return cnIntegral.calculate(0, length);
     };
+
+    public double phiIntegralResult(){
+        return phiIntegral.calculate(0, length);
+    }
+
+    public double phiFunctionResult(double x){
+        return phiFunction(x);
+    }
+
+
 
 }
