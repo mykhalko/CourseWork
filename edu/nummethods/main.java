@@ -3,6 +3,7 @@ package edu.nummethods;
 import edu.nummethods.Integration.Simpson.Integral;
 import edu.nummethods.Integration.Simpson.IntegralExpression;
 import edu.nummethods.Rod.Exceptions.UseAnotherReloadException;
+import edu.nummethods.Rod.RodTemperatureAlteration;
 import edu.nummethods.Rod.StartTemperatureDistribution;
 
 public class main {
@@ -24,16 +25,9 @@ public class main {
             }
         };
 
-        IntegralExpression integralExpression = new IntegralExpression() {
-            @Override
-            public double calculate(double x) {
-                return x*x;
-            }
-        };
-
-        Integral integral = new Integral(integralExpression, 0.01);
-
-        System.out.println("[1;4] result: " + integral.calculate(1, 4));
+        RodTemperatureAlteration rodTemperatureAlteration = new RodTemperatureAlteration(
+                0, 10, 0.1,
+                1, 0.1, startTemperatureDistribution);
 
         return;
     }
