@@ -55,11 +55,11 @@ public class main {
         RodTemperatureAlteration rodTemperatureAlteration = new RodTemperatureAlteration( temperatureDistribution, courseWorkFunction,
                 10, 0.1, 1);
 
-        double x = 0.001;
-        double t = 10;
+        double x = 0;
+        double t = 0;
         System.out.printf("|    x    |    t    |    n    |    r    |\n");
         while(x < 10){
-            System.out.printf("|%9.4f|%9.4f|%9d|%9.4f|\n", x, t, 100, rodTemperatureAlteration.calculate(x, t, 100));
+            System.out.printf("|%9.4f|%9.4f|%9d|%9.4f|\n", x, t, 1000, rodTemperatureAlteration.calculate(x, t, 1000));
             x += 1;
         }
 

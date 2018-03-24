@@ -100,15 +100,18 @@ public class RodTemperatureAlteration {
     public double calculate(double x, double t, int n){
         final double squaredA = 0.139;
         double result = 0;
+        double expression = 0, previousExpression;
 
-        for(int i = 0; i < n; i++){
+        int i = 0;
+        do {
             values.setNu(nuFunction(i));
-            double expression;
-            expression = cnFunction(values.getNu());
+            previousExpression = expression;
+            expression = cnFunction();
             expression *= Math.exp(-squaredA * lambdaFunction(values.getNu() * t));
             expression *= phiFunction(x);
             result += expression;
-        }
+            i++;
+        }while(i < n && Math.abs(expression - previousExpression) > 0.0001);
         return result;
     }
 
@@ -132,12 +135,12 @@ public class RodTemperatureAlteration {
         return left + right;
     }
 
-    public double cnFunction(double nuValue){
+    public double cnFunction(){
         return (1 / squaredModuloPhiFunction()) * cnIntegral.calculate(0, length);
     }
 
 
-    // TEMPORARY METHODS 
+    // TEMPORARY METHODS
     public void updateNu(int n){
         values.setNu(nuFunction(n));
     }
