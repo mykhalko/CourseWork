@@ -1,13 +1,8 @@
 package edu.nummethods;
 
-import com.sun.org.apache.xpath.internal.operations.Mult;
 import edu.nummethods.Differentiation.Derivative;
 import edu.nummethods.Function.Multi;
 import edu.nummethods.Integration.Simpson.Integral;
-import edu.nummethods.Integration.Simpson.IntegralExpression;
-import edu.nummethods.Rod.Exceptions.UseAnotherReloadException;
-import edu.nummethods.Rod.RodTemperatureAlteration;
-import edu.nummethods.Rod.StartTemperatureDistribution;
 
 public class main {
 
@@ -24,8 +19,11 @@ public class main {
 
         Derivative derivative = new Derivative(function, 0.00000001);
 
-        System.out.printf("function(x0 = 4): %f derivative(x0 = 4): %f",
-                function.calculate(4.0), derivative.calculate(4));
+
+        Integral integral = new Integral(function, 0.00000001);
+
+        System.out.printf("function(x0 = 4): %f derivative(x0 = 4): %f integral[0 ; 4]: %f",
+                function.calculate(4.0), derivative.calculate(4), integral.calculate(0, 4));
 
         return;
     }

@@ -1,11 +1,14 @@
 package edu.nummethods.Integration.Simpson;
 
+import edu.nummethods.Function.Multi;
+
 public class Integral {
 
-    IntegralExpression function;
+
+    Multi<Double> function;
     double accuracy;
 
-    public Integral(IntegralExpression function, double accuracy){
+    public Integral(Multi<Double> function, double accuracy){
         this.accuracy = accuracy;
         this.function = function;
     }
