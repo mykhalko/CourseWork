@@ -33,11 +33,13 @@ public class HTMLNotary implements AbstractHTMLNotary{
         out.write("<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<meta charset='UTF-8'>");
         out.write("\n\t\t<title>" + title + "</title>");
         out.write("\n\t\t<link rel='stylesheet' href='example.css'>");
-        out.write("\n\t\t<script type='text/javascript' src='example.js'></script>\n\t</head>");
         out.write("\n\t<body>");
     }
 
     public void finish() throws IOException{
+        out.write("\n\t\t<canvas id=\"myChart\" width=\"400\" height=\"400\"></canvas>");
+        out.write("\n\t\t<script type='text/javascript' src='Chart.js'></script>");
+        out.write("\n\t\t<script type='text/javascript' src='example.js'></script>");
         out.write("\n\t</body>\n</html>");
         out.close();
     };

@@ -5,9 +5,9 @@ import java.io.IOException;
 
 public interface AbstractHTMLNotary {
 
-    public void startTable(String title) throws IOException;
-    public void finishTable() throws IOException;
-    public void startRow(String title) throws IOException;
-    public void finishRow() throws IOException;
-    public void addData(String title, String data) throws IOException;
+    void startTable(String title) throws IOException;
+    void finishTable() throws IOException;
+    void startRow(String title) throws IOException;
+    void finishRow() throws IOException;
+    void addData(String title, String data) throws IOException;
 }

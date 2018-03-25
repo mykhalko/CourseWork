@@ -53,7 +53,7 @@ public class main {
             @Override
             public Double calculate(Double... variable) {
                 double x = variable[0];
-                return x*x+7-5*x;
+                return (2*x - 0.5) / Math.sqrt(x*x*2 - x + 2);
             }
         };
 
@@ -76,8 +76,8 @@ public class main {
         while(x <= 10){
             xValues[index] = x;
             yt0Values[index] = rodTemperatureAlteration.calculate(x, t, 50);
-            yt1Values[index] = rodTemperatureAlteration.calculate(x, 10, 50);
-            yt2Values[index] = rodTemperatureAlteration.calculate(x, 30, 50);
+            yt1Values[index] = rodTemperatureAlteration.calculate(x, 4, 50);
+            yt2Values[index] = rodTemperatureAlteration.calculate(x, 15, 50);
 
             System.out.printf("|%9.4f|%9.4f|%9d|%9.4f|\n", x, t, 50, yt0Values[index]);
 
@@ -91,7 +91,7 @@ public class main {
         try {
             HTMLNotary table = new HTMLNotary("/home/mykhalko/dev/Java/practice/Coursework/");
             table.start("GraphicalDependence");
-            table.startTable("valuesTAble");
+            table.startTable("valuesTable");
             table.startRow("xValues");
             table.addData("xValue", xValues);
             table.finishRow();
