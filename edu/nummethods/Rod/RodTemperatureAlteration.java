@@ -38,7 +38,7 @@ public class RodTemperatureAlteration {
         Multi<Double> cnIntegralExpression;
 
         values = new IntegralValues(0);
-        this.equation = new Newton(equationExpression, 0.0000001,0.000000001);
+        this.equation = new Newton(equationExpression, 0.0000000001,0.0000000001);
         this.startTemperatureDistribution = startTemperatureDistribution;
         this.length = length;
         this.convectionLeft = convectionLeft;
@@ -92,8 +92,8 @@ public class RodTemperatureAlteration {
             }
         }.setValues(values, this.startTemperatureDistribution);
 
-        phiIntegral = new Integral(phiIntegralExpression, 0.0001);
-        cnIntegral = new Integral(cnIntegralExpression, 0.0001);
+        phiIntegral = new Integral(phiIntegralExpression, 0.0000001);
+        cnIntegral = new Integral(cnIntegralExpression, 0.0000001);
 
     }
 
