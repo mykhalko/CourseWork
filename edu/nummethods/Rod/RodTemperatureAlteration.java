@@ -4,6 +4,8 @@ import edu.nummethods.Equation.Nonlinear.Newton.Newton;
 import edu.nummethods.Function.Multi;
 import edu.nummethods.Integration.Simpson.Integral;
 
+import java.util.ArrayList;
+
 public class RodTemperatureAlteration {
 
     class IntegralValues{
@@ -29,6 +31,7 @@ public class RodTemperatureAlteration {
     private Multi<Double> startTemperatureDistribution;
     private IntegralValues values;
     Integral phiIntegral, cnIntegral;
+    ArrayList<Double> equationRoots;
 
     public RodTemperatureAlteration(Multi<Double> startTemperatureDistribution,
                                     Multi<Double> equationExpression,
@@ -94,7 +97,7 @@ public class RodTemperatureAlteration {
 
         phiIntegral = new Integral(phiIntegralExpression, 0.0000001);
         cnIntegral = new Integral(cnIntegralExpression, 0.0000001);
-
+        equationRoots = new ArrayList<Double>();
     }
 
     public double calculate(double x, double t, int n){
@@ -102,16 +105,21 @@ public class RodTemperatureAlteration {
         double result = 0;
         double expression = 0, previousExpression;
 
+        if(n > equationRoots.size()){
+            for(int i = equationRoots.size(); i < n; i++){
+              equationRoots.add(nuFunction(i));
+            }
+        }
+
         int i = 0;
         do {
-            values.setNu(nuFunction(i));
-            previousExpression = expression;
+            values.setNu(equationRoots.get(i));
             expression = cnFunction();
             expression *= Math.exp(-squaredA * lambdaFunction(values.getNu() * t));
             expression *= phiFunction(x);
             result += expression;
             i++;
-        }while(i < n/* && Math.abs(expression - previousExpression) > 0.0001*/);
+        }while(i < n);
         return result;
     }
 

@@ -64,19 +64,29 @@ public class main {
         double x = 0;
         double t = 0;
 
-        double[] xValues, yValues;
+        double[] xValues, yt0Values, yt1Values, yt2Values;
         xValues = new double[21];
-        yValues = new double[21];
+        yt0Values = new double[21];
+        yt1Values = new double[21];
+        yt2Values = new double[21];
+
         int index = 0;
 
         System.out.printf("|    x    |    t    |    n    |    r    |\n");
         while(x <= 10){
             xValues[index] = x;
-            yValues[index] = rodTemperatureAlteration.calculate(x, t, 50);
-            System.out.printf("|%9.4f|%9.4f|%9d|%9.4f|\n", x, t, 50, yValues[index]);
+            yt0Values[index] = rodTemperatureAlteration.calculate(x, t, 50);
+            yt1Values[index] = rodTemperatureAlteration.calculate(x, 10, 50);
+            yt2Values[index] = rodTemperatureAlteration.calculate(x, 30, 50);
+
+            System.out.printf("|%9.4f|%9.4f|%9d|%9.4f|\n", x, t, 50, yt0Values[index]);
+
+
             x += 0.5;
             index++;
         }
+
+
 
         try {
             HTMLNotary table = new HTMLNotary("/home/mykhalko/dev/Java/practice/Coursework/");
@@ -85,8 +95,14 @@ public class main {
             table.startRow("xValues");
             table.addData("xValue", xValues);
             table.finishRow();
-            table.startRow("yValues");
-            table.addData("yValue", yValues);
+            table.startRow("yt0Values");
+            table.addData("yt0Value", yt0Values);
+            table.finishRow();
+            table.startRow("yt1Values");
+            table.addData("yt1Value", yt1Values);
+            table.finishRow();
+            table.startRow("yt2Values");
+            table.addData("yt2Value", yt2Values);
             table.finishRow();
             table.finishTable();
             table.finish();
